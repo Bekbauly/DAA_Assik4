@@ -22,67 +22,67 @@ Given weighted directed graphs representing city service task networks where:
 - Edges define task dependencies and scheduling limitations  
 - Edge weights indicate task durations or associated resource costs
 
-\#\# Theory
+## Theory
 
-\### Tarjan’s Algorithm for Strongly Connected Components \(SCCs\)
+### Tarjan’s Algorithm for Detecting Strongly Connected Components
 
-Strongly connected components \(SCCs\) are the largest groups of vertices in a directed graph where every vertex can reach every other vertex within the same group. Tarjan’s algorithm identifies all SCCs using a single depth\-first search \(DFS\).
+Strongly connected components (SCCs) are the maximal groups of vertices in a directed graph where every vertex can reach all others in the group. Tarjan’s method finds all SCCs using a single depth-first search traversal.
 
-The algorithm tracks:
-\- \*\*Discovery time\*\* for each vertex when first visited  
-\- \*\*Low\-link values\*\* representing the smallest reachable vertex via DFS  
-\- \*\*Stack\*\* to keep track of the current DFS path  
+The algorithm keeps track of:
+- **Discovery time** when a vertex is first visited  
+- **Low-link values** indicating the smallest vertex reachable through DFS  
+- **Stack** to monitor the current path  
 
-\*\*Core idea:\*\* If a vertex’s low\-link value equals its discovery time, it serves as the root of an SCC, including all vertices currently on the stack above it.
+**Key idea:** A vertex whose low-link equals its discovery time is the root of an SCC, including all vertices above it on the stack.
 
-\*\*Time Complexity:\*\* O\(V + E\) – a single DFS traversal with stack operations  
+**Time Complexity:** O(V + E) – DFS is performed once, with stack operations  
 
-This approach is more efficient than Kosaraju’s algorithm, which requires two DFS passes.
+This is more efficient than Kosaraju’s algorithm, which requires two separate DFS passes.
 
 ---
 
-\### Kahn’s Algorithm for Topological Sorting
+### Kahn’s Algorithm for Topological Sorting
 
-Topological sorting generates a linear ordering of vertices so that for each directed edge \(u \→ v\), vertex u comes before vertex v. This is crucial for scheduling tasks with dependencies.
+Topological sorting produces a linear sequence of vertices such that for every directed edge (u → v), u comes before v. This is useful for task scheduling where dependencies matter.
 
-Kahn’s algorithm works as follows:
-1. Compute the in\-degree for each vertex  
-2. Initialize a queue with vertices that have zero in\-degree  
+Steps of Kahn’s algorithm:
+1. Compute the in-degree for all vertices  
+2. Add all vertices with zero in-degree to a queue  
 3. While the queue is not empty:  
-   \- Remove a vertex  
-   \- Decrease the in\-degree of its neighbors  
-   \- Add any neighbors whose in\-degree becomes zero  
+   - Remove a vertex from the queue  
+   - Reduce the in-degree of its neighbors  
+   - Add neighbors with zero in-degree to the queue  
 
-\*\*Time Complexity:\*\* O\(V + E\) – every vertex and edge is processed once  
+**Time Complexity:** O(V + E) – each vertex and edge is handled once  
 
-The algorithm also detects cycles: if fewer than V vertices are processed, the graph contains a cycle.
+It can also detect cycles: if fewer than V vertices are processed, the graph contains a cycle.
 
 ---
 
-\### Shortest Path in DAGs
+### Shortest Paths in DAGs
 
-For directed acyclic graphs \(DAGs\), shortest paths can be computed efficiently using topological ordering. Negative weights are allowed since DAGs cannot contain negative cycles.
+In directed acyclic graphs (DAGs), shortest paths can be computed efficiently using topological sorting. Negative edge weights are allowed since no negative cycles exist.
 
-\*\*Steps:\*\*
+**Procedure:**
 1. Perform a topological sort of the vertices  
-2. Initialize distances: 0 for the source, \∞ for all others  
-3. Relax edges in topological order: for each vertex u, update distances for all outgoing edges  
+2. Initialize distances: 0 for the source, ∞ for all other vertices  
+3. Relax edges following the topological order: for each vertex u, update distances for outgoing edges  
 
-\*\*Time Complexity:\*\* O\(V + E\) – topological sort plus one pass of edge relaxation  
+**Time Complexity:** O(V + E) – one topological sort plus edge relaxation  
 
-\*\*Advantage:\*\* Guarantees correct results by processing vertices according to dependencies.
+**Advantage:** Ensures optimal results by respecting vertex dependencies.
 
 ---
 
-\### Longest Path \(Critical Path\) in DAGs
+### Longest Path (Critical Path) in DAGs
 
-The critical path identifies the longest path in a DAG, useful for detecting bottlenecks in project schedules. This problem mirrors the shortest path but maximizes distances.
+The critical path identifies the longest route in a DAG, useful for detecting scheduling bottlenecks. This is essentially the reverse of shortest path calculations.
 
-\*\*Procedure:\*\* Same as DAG shortest path, but maximize distances:
-1. Topologically sort the vertices  
-2. Initialize distances: 0 for the source, \-\∞ for all others  
-3. Relax edges in topological order to maximize path lengths  
+**Procedure:** Same as DAG shortest path, but maximize distances:
+1. Topologically sort vertices  
+2. Initialize distances: 0 for the source, -∞ for all others  
+3. Relax edges in topological order to find maximum path lengths  
 
-\*\*Time Complexity:\*\* O\(V + E\)  
+**Time Complexity:** O(V + E)  
 
-\*\*Integration:\*\* SCC detection \→ topological sort \→ path analysis enables full DAG workflow.
+**Workflow:** SCC detection → topological sorting → path analysis enables structured DAG processing.
