@@ -238,4 +238,29 @@ I generated 18 test graphs to represent various city service scenarios, systemat
 | pure_dag   | 35       | 140   | dense   | 33        | 0.0           | 35.77         | 370              | 0.6365          |
 | many_sccs  | 50       | 200   | dense   | 5         | 4.358         | 47.15         | 435              | 0.5871          |
 
+## Conclusions
+
+### Algorithm Recommendations for Service Networks
+
+**Dependency Detection in Service Networks:**
+- **Tarjan's SCC** is recommended for detecting circular dependencies in maintenance schedules.  
+- **Performance:** 0.0254–0.0928 ms, suitable for real-time validation.  
+- **Ideal use:** Avoiding scheduling conflicts, organizing modular service components.  
+
+**Task Scheduling and Service Ordering:**
+- **Kahn's topological sort** should serve as the primary scheduling engine.  
+- **Performance:** 0.011–0.0443 ms, enabling continuous rescheduling.  
+- **Ideal use:** Daily service planning, resource management, workflow coordination.  
+
+**Minimum Time Service Completion:**
+- **DAG shortest path** is effective for optimizing task duration.  
+- **Performance:** 0.0225–0.0811 ms, supporting interactive planning tools.  
+- **Ideal use:** Emergency response optimization, minimizing resource usage.  
+
+**Critical Service Chain Analysis:**
+- **DAG critical path** identifies bottlenecks in service sequences.  
+- **Performance:** 0.0529–0.4368 ms, adequate for planning analysis.  
+- **Ideal use:** Project oversight, risk evaluation, capacity planning.  
+
+The implementation efficiently manages service task networks, delivering performance that meets practical requirements. The theoretical O(V + E) complexity is consistently achieved and often exceeded thanks to modern Java optimizations, making it well-suited for real-time city management systems.
 
