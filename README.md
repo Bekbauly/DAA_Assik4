@@ -86,3 +86,156 @@ The critical path identifies the longest route in a DAG, useful for detecting sc
 **Time Complexity:** O(V + E)  
 
 **Workflow:** SCC detection → topological sorting → path analysis enables structured DAG processing.
+
+##  Input Data
+
+I generated 18 test graphs to represent various city service scenarios, systematically varying their size, density, and structural complexity.
+
+**Graph Categories:**
+- **Small networks:** 6-10 vertices
+- **Medium networks:** 12-25 vertices
+- **Large networks:** 35-50 vertices
+
+## Results
+
+### Strongly Connected Components (Sparse Graphs)
+
+| Graph      | Vertices | Edges | Variant | SCC Count | Operations | Time (ms) |
+| ---------- | -------- | ----- | ------- | --------- | ---------- | --------- |
+| pure_dag   | 6        | 10    | sparse  | 6         | 31         | 0.093     |
+| one_cycle  | 8        | 14    | sparse  | 8         | 46         | 0.033     |
+| two_cycles | 10       | 18    | sparse  | 9         | 58         | 0.050     |
+| mixed      | 12       | 21    | sparse  | 7         | 72         | 0.049     |
+| mixed      | 16       | 28    | sparse  | 9         | 100        | 0.060     |
+| mixed      | 20       | 36    | sparse  | 15        | 123        | 0.033     |
+| many_sccs  | 25       | 45    | sparse  | 15        | 154        | 0.053     |
+| pure_dag   | 35       | 63    | sparse  | 35        | 190        | 0.145     |
+| many_sccs  | 50       | 90    | sparse  | 29        | 309        | 0.148     |
+
+### Topological Sort (Sparse Graphs)
+
+| Graph      | Vertices | Edges | Variant | Operations | Time (ms) |
+| ---------- | -------- | ----- | ------- | ---------- | --------- |
+| pure_dag   | 6        | 10    | sparse  | 21         | 0.0443    |
+| one_cycle  | 8        | 14    | sparse  | 26         | 0.0234    |
+| two_cycles | 10       | 18    | sparse  | 31         | 0.0186    |
+| mixed      | 12       | 21    | sparse  | 22         | 0.0242    |
+| mixed      | 16       | 28    | sparse  | 26         | 0.0234    |
+| mixed      | 20       | 36    | sparse  | 47         | 0.0162    |
+| many_sccs  | 25       | 45    | sparse  | 48         | 0.107     |
+| pure_dag   | 35       | 63    | sparse  | 130        | 0.0265    |
+| many_sccs  | 50       | 90    | sparse  | 89         | 0.0412    |
+
+### DAG Shortest Path (Sparse Graphs)
+
+| Graph      | Vertices | Edges | Variant | Path Length | Operations | Time (ms) |
+| ---------- | -------- | ----- | ------- | ----------- | ---------- | --------- |
+| pure_dag   | 6        | 10    | sparse  | 0.0         | 0          | 0.0393    |
+| one_cycle  | 8        | 14    | sparse  | 6.79        | 26         | 0.0808    |
+| two_cycles | 10       | 18    | sparse  | 20.31       | 18         | 0.0464    |
+| mixed      | 12       | 21    | sparse  | 5.18        | 3          | 0.0478    |
+| mixed      | 16       | 28    | sparse  | 0.0         | 0          | 0.0337    |
+| mixed      | 20       | 36    | sparse  | 0.0         | 0          | 0.0584    |
+| many_sccs  | 25       | 45    | sparse  | 53.27       | 32         | 0.0458    |
+| pure_dag   | 35       | 63    | sparse  | 0.0         | 0          | 0.0466    |
+| many_sccs  | 50       | 90    | sparse  | 18.27       | 37         | 0.0494    |
+
+### Critical Path Analysis (Sparse Graphs)
+
+| Graph      | Vertices | Edges | Variant | Path Length | Operations | Time (ms) |
+| ---------- | -------- | ----- | ------- | ----------- | ---------- | --------- |
+| pure_dag   | 6        | 10    | sparse  | 32.33       | 54         | 0.2103    |
+| one_cycle  | 8        | 14    | sparse  | 20.96       | 56         | 0.084     |
+| two_cycles | 10       | 18    | sparse  | 43.93       | 126        | 0.0624    |
+| mixed      | 12       | 21    | sparse  | 25.78       | 54         | 0.1266    |
+| mixed      | 16       | 28    | sparse  | 35.04       | 79         | 0.0777    |
+| mixed      | 20       | 36    | sparse  | 47.45       | 200        | 0.4422    |
+| many_sccs  | 25       | 45    | sparse  | 63.20       | 215        | 0.2709    |
+| pure_dag   | 35       | 63    | sparse  | 35.77       | 458        | 0.4649    |
+| many_sccs  | 50       | 90    | sparse  | 47.15       | 462        | 0.3982    |
+
+### System Performance Summary (Sparse Graphs)
+
+| Graph      | Vertices | Edges | Variant | SCC Count | Shortest Path | Critical Path | Total Operations | Total Time (ms) |
+| ---------- | -------- | ----- | ------- | --------- | ------------- | ------------- | ---------------- | --------------- |
+| pure_dag   | 6        | 10    | sparse  | 6         | 0.0           | 32.33         | 112              | 0.3474          |
+| one_cycle  | 8        | 14    | sparse  | 8         | 6.79          | 20.96         | 98               | 0.1375          |
+| two_cycles | 10       | 18    | sparse  | 9         | 20.31         | 43.93         | 107              | 0.1152          |
+| mixed      | 12       | 21    | sparse  | 7         | 5.18          | 25.78         | 97               | 0.1206          |
+| mixed      | 16       | 28    | sparse  | 9         | 0.0           | 35.04         | 126              | 0.1608          |
+| mixed      | 20       | 36    | sparse  | 15        | 0.0           | 47.45         | 205              | 0.1994          |
+| many_sccs  | 25       | 45    | sparse  | 15        | 53.27         | 63.20         | 234              | 0.2059          |
+| pure_dag   | 35       | 63    | sparse  | 35        | 0.0           | 35.77         | 370              | 0.6365          |
+| many_sccs  | 50       | 90    | sparse  | 29        | 18.27         | 47.15         | 435              | 0.5871          |
+
+### Strongly Connected Components (Dense Graphs)
+
+| Graph      | Vertices | Edges | Variant | SCC Count | Operations | Time (ms) |
+| ---------- | -------- | ----- | ------- | --------- | ---------- | --------- |
+| pure_dag   | 6        | 10    | dense   | 5         | 33         | 0.0254    |
+| one_cycle  | 8        | 18    | dense   | 1         | 60         | 0.0259    |
+| two_cycles | 10       | 30    | dense   | 2         | 89         | 0.0361    |
+| mixed      | 12       | 39    | dense   | 1         | 114        | 0.0575    |
+| mixed      | 16       | 53    | dense   | 3         | 153        | 0.0466    |
+| mixed      | 20       | 67    | dense   | 1         | 194        | 0.1251    |
+| many_sccs  | 25       | 71    | dense   | 5         | 204        | 0.055     |
+| pure_dag   | 35       | 140   | dense   | 33        | 276        | 0.0576    |
+| many_sccs  | 50       | 200   | dense   | 5         | 539        | 0.0607    |
+
+### Topological Sort (Dense Graphs)
+
+| Graph      | Vertices | Edges | Variant | Operations | Time (ms) |
+| ---------- | -------- | ----- | ------- | ---------- | --------- |
+| pure_dag   | 6        | 10    | dense   | 15         | 0.0298    |
+| one_cycle  | 8        | 18    | dense   | 2          | 0.011     |
+| two_cycles | 10       | 30    | dense   | 5          | 0.0189    |
+| mixed      | 12       | 39    | dense   | 2          | 0.0155    |
+| mixed      | 16       | 53    | dense   | 8          | 0.0125    |
+| mixed      | 20       | 67    | dense   | 2          | 0.016     |
+| many_sccs  | 25       | 71    | dense   | 18         | 0.0199    |
+| pure_dag   | 35       | 140   | dense   | 180        | 0.0462    |
+| many_sccs  | 50       | 200   | dense   | 16         | 0.0128    |
+
+### DAG Shortest Path (Dense Graphs)
+
+| Graph      | Vertices | Edges | Variant | Path Length | Operations | Time (ms) |
+| ---------- | -------- | ----- | ------- | ----------- | ---------- | --------- |
+| pure_dag   | 6        | 10    | dense   | 0.0         | 0          | 0.0225    |
+| one_cycle  | 8        | 18    | dense   | 0.0         | 0          | 0.0811    |
+| two_cycles | 10       | 30    | dense   | 0.0         | 0          | 0.2092    |
+| mixed      | 12       | 39    | dense   | 0.0         | 0          | 0.0339    |
+| mixed      | 16       | 53    | dense   | 11.99       | 6          | 0.0601    |
+| mixed      | 20       | 67    | dense   | 11.99       | 6          | 0.0703    |
+| many_sccs  | 25       | 71    | dense   | 5.92        | 13         | 0.0584    |
+| pure_dag   | 35       | 140   | dense   | 4.358       | 16         | 0.0411    |
+| many_sccs  | 50       | 200   | dense   | 4.358       | 16         | 0.0411    |
+
+### Critical Path Analysis (Dense Graphs)
+
+| Graph      | Vertices | Edges | Variant | Path Length | Operations | Time (ms) |
+| ---------- | -------- | ----- | ------- | ----------- | ---------- | --------- |
+| pure_dag   | 6        | 10    | dense   | 17.96       | 21         | 0.0707    |
+| one_cycle  | 8        | 18    | dense   | 0.0         | 0          | 0.0529    |
+| two_cycles | 10       | 30    | dense   | 4.15        | 3          | 0.077     |
+| mixed      | 12       | 39    | dense   | 0.0         | 0          | 0.0531    |
+| mixed      | 16       | 53    | dense   | 0.0         | 0          | 0.0436    |
+| mixed      | 20       | 67    | dense   | 11.99       | 6          | 0.0703    |
+| many_sccs  | 25       | 71    | dense   | 33.14       | 48         | 0.103     |
+| pure_dag   | 35       | 140   | dense   | 60.98       | 1779       | 0.4368    |
+| many_sccs  | 50       | 200   | dense   | 19.63       | 24         | 0.0409    |
+
+### System Performance Summary (Dense Graphs)
+
+| Graph      | Vertices | Edges | Variant | SCC Count | Shortest Path | Critical Path | Total Operations | Total Time (ms) |
+| ---------- | -------- | ----- | ------- | --------- | ------------- | ------------- | ---------------- | --------------- |
+| pure_dag   | 6        | 10    | dense   | 5         | 0.0           | 17.96         | 112              | 0.3474          |
+| one_cycle  | 8        | 18    | dense   | 1         | 0.0           | 20.96         | 98               | 0.1375          |
+| two_cycles | 10       | 30    | dense   | 2         | 0.0           | 43.93         | 107              | 0.1152          |
+| mixed      | 12       | 39    | dense   | 1         | 0.0           | 25.78         | 97               | 0.1206          |
+| mixed      | 16       | 53    | dense   | 3         | 11.99         | 35.04         | 126              | 0.1608          |
+| mixed      | 20       | 67    | dense   | 1         | 11.99         | 47.45         | 205              | 0.1994          |
+| many_sccs  | 25       | 71    | dense   | 5         | 53.27         | 63.20         | 234              | 0.2059          |
+| pure_dag   | 35       | 140   | dense   | 33        | 0.0           | 35.77         | 370              | 0.6365          |
+| many_sccs  | 50       | 200   | dense   | 5         | 4.358         | 47.15         | 435              | 0.5871          |
+
+
